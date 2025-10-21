@@ -1,11 +1,10 @@
 /* Goal: ultrakill haha funny
  default is holding handcannon
- 
  hand coin toss animation (maybe)
  
  **the anim stuff may or may not do, low priority
  
- -trigger on [key]
+ -trigger on [spacebar]
  -bring handcannon down first
  
  throw coin
@@ -37,16 +36,42 @@ void draw() {
 }
 
 
-/////////////////////////CLASSES ARE HERE//////////////////////////////////////
+/////////////////////////////////////CLASSES ARE HERE///////////////////////////////////////////////
 
 
 class Particle {
-  double myX, myY, size, speed, direction;
-  int shade, fade, fadeFactor;
-  Particle() {
+  double myX, myY, speed, direction, fadeFactor, fade;
+  float size;
+  int shade;
+  Particle(int x, int y) {
+    myX = x;
+    myY = y;
+    size = (int)(Math.random()*11)+10;
+    speed = size*(int)(Math.random()+3);
+    direction = (Math.random()*2)*PI;
+    shade = (int)(Math.random()*80)+175;
+    fade = 255;
+    fadeFactor = size*.5;
+  }
+
+  void move() {
+    myX += Math.cos(direction)*speed;
+    myY += Math.sin(direction)*speed;
+    fade -= fadeFactor;
+  }
+
+  void show() {
+    noStroke();
+    fill(shade,150,150,(int)fade);
+    ellipse(10,10,size,size);
   }
 }
 
-
-class OddballParticle {
-}
+/*
+class Oddball extends Particle{
+ Oddball(){
+ 
+ }
+ }
+ class Coin
+ */
