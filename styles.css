@@ -1,7 +1,7 @@
 
 body {
     background-color: rgb(90,15,15);
-	color: rgb(134, 10, 10);
+	color: rgb(214, 28, 28);
     font-family: "Palatino", sans-serif;
     text-align: center;
 }
@@ -17,7 +17,7 @@ header {
 }
 
 footer {
-	font-size: 90%;
+	font-size: 100%;
 	text-align: center;
 }
 
