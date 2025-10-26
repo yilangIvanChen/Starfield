@@ -1,8 +1,8 @@
 
 body {
-    background-color: rgb(200,200,200);
-    color: rgb(0,0,0);
-    font-family: "Open Sans", sans-serif;
+    background-color: rgb(90,15,15);
+	color: rgb(134, 10, 10);
+    font-family: "Palatino", sans-serif;
     text-align: center;
 }
 
@@ -13,11 +13,10 @@ body {
 }
 
 header {
-	
+
 }
 
 footer {
-	font-style: italic;
 	font-size: 90%;
 	text-align: center;
 }
