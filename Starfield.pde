@@ -7,7 +7,8 @@
  particles when coin is shot (particles done, function not yet implementd)
  
  ricochet coins
- 
+
+make speech in index.html increase in text size per line
  */
 
 
