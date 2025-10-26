@@ -1,44 +1,55 @@
 /* Goal: ultrakill haha funny
- -trigger on [spacebar]
  
- throw coin
- -coin flips and shit as it flies in the air (circular coin btw)
- -coin gets smaller as it gets further
+ throw coin (done, throw on key press not yet implemented)
  
  shoot coin
- -trigger on m1
- -charging shot based on time held
- 
- particles when coin is shot
- -trails
- -outlier: yellow line from coin to ground
+
+ particles when coin is shot (particles done, function not yet implementd)
  
  ricochet coins
+ 
  */
 
 
-/////////////////////////////VARIABLES GO HERE (probably)/////////////////////////////////////
+/////////////////////////////VARIABLES///////////////////////////////////////////////////
 
-Particle poopyfart = new Particle(250, 250);
+Particle[] test = new Particle[16];
+Coin[] coins = new Coin[5];
 
 ///////////////////////////////DRAWING STUFF//////////////////////////////////////////////////
 
 
 void setup() {
   background(167);
-  size(500, 500);
+  size(1000, 600);
+  for (int i = 0; i < 6; i++)
+    test[i] = new Split(500, 300, 2);
+  for (int i = 6; i < test.length; i++)
+    test[i] = new Particle(500, 300);
   frameRate(120);
 }
 
 
 void draw() {
   background(167);
-  poopyfart.move();
-  poopyfart.show();
+  for (int i = 0; i < test.length; i++) {
+    test[i].move();
+    test[i].show();
+  }
 }
 
 
-/////////////////////////////////////CLASSES ARE HERE///////////////////////////////////////////////
+
+////////////////////////////////////CLICKING STUFF////////////////////////////////////////////////
+
+
+void mouseClicked(){
+
+
+}
+
+
+/////////////////////////////////////CLASSES////////////////////////////////////////////////////
 
 
 class Particle {
@@ -48,39 +59,122 @@ class Particle {
   Particle(int x, int y) {
     myX = x;
     myY = y;
-    size = (int)(Math.random()*20)+12;
+    size = (int)(Math.random()*4)+14;
     iniSize = size;
-    speed = pow((int)(Math.random()+3),(size));
+    speed = size/3;
     direction = (Math.random()*2)*PI;
-    shade = (int)(Math.random()*80)+175;
+    shade = (int)(Math.random()*20)+10;
     fade = 255;
     fadeFactor = size;
   }
 
+  Particle() {
+  } ////////////yo why tf does this need to be here
+
   void move() {
-    if (iniSize/3*2 <= size){
+    if (iniSize/5*3 >= size)
+      fade -= fadeFactor;
     myX += Math.cos(direction)*speed;
     myY += Math.sin(direction)*speed;
-    }
-    if (iniSize/3*2 > size)
-      fade -= fadeFactor;
     size -= .2;
     if (size < 0)
       size = 0 ;
   }
 
+
   void show() {
     noStroke();
-    fill(shade, 60, 60, (int)fade);
+    fill(255 - shade, 225 - shade, shade, (int)fade);
     ellipse((float)myX, (float)myY, size, size);
   }
 }
 
-/*
-class Oddball extends Particle{
- Oddball(){
- 
- }
- }
- class Coin
- */
+
+class Split extends Particle {
+  color coin;
+  Split(int x, int y, int type) {
+    myX = x;
+    myY = y;
+    size = 60;
+    iniSize = size;
+    speed = size/25;
+    direction = (Math.random()*2)*PI;
+    fade = 255;
+    fadeFactor = 10;
+    if (type == 0)
+      coin = #D88E48;
+    if (type == 1)
+      coin = #DFEFF0;
+    if (type == 2)
+      coin = #F0E085;
+  }
+  void move() {
+    myX += Math.cos(direction)*speed;
+    myY += Math.sin(direction)*speed;
+    size -= 1;
+    if (size < 0)
+      size = 0 ;
+  }
+
+
+  void show() {
+    noStroke();
+    fill(coin);
+    ellipse((float)myX, (float)myY, size, size);
+  }
+}///////end of particle class
+
+
+class Coin {
+  int myX, myY, type, tadth, maxHeight;
+  double time;
+  boolean dead;
+  color coin;
+  Coin(int x, int z, int max) {
+    myX = x;
+    myY = 610;
+    maxHeight = max;
+    type = z;
+    time = 0;
+    dead = false;
+  }
+
+  void flip() {
+    time++;
+    tadth =(int)(40*Math.cos(time/5));
+    if (tadth >= 0) {
+      if (type == 0) {
+        coin = #D88E48;
+      }
+      if (type == 1) {
+        coin = #DFEFF0;
+      }
+      if (type == 2) {
+        coin = #F0E085;
+      }
+    }
+
+    if (tadth < 0) {
+      if (type == 0) {
+        coin = #A5652D;
+      }
+      if (type == 1) {
+        coin = #D3D3D3;
+      }
+      if (type == 2) {
+        coin = #DBC64D;
+      }
+    }
+  }
+
+  void fly() {
+    myY = (int)(.04*(time*time-240*time)+600+maxHeight);
+    if (myY > 620)
+      dead = true;
+  }
+  void show() {
+    stroke(2);
+    fill(coin);
+    ellipse(myX, myY, 40, tadth);
+  }
+}////end of coin class
