@@ -1,6 +1,6 @@
 /* Goal: ultrakill haha funny
  
- throw coin (basically works, clunky click registration)
+ throw coin (in the works edit: ok so its clunky on processing but not on github what the fuck)
  
  shoot coin
  
@@ -14,7 +14,7 @@
 /////////////////////////////VARIABLES///////////////////////////////////////////////////
 
 Particle[] test = new Particle[16];
-Coin[] coins = new Coin[5];
+Coin[] coins = new Coin[10];
 
 ///////////////////////////////DRAWING STUFF//////////////////////////////////////////////////
 
@@ -44,7 +44,7 @@ void draw() {
     coins[i].flip();
     coins[i].show();
   }
-  //System.out.println("Coin Dead Status: " + coins[0].dead+ coins[1].dead+ coins[2].dead+ coins[3].dead+ coins[4].dead);
+  System.out.println("Coin Dead Status: " + coins[0].dead+ coins[1].dead+ coins[2].dead+ coins[3].dead+ coins[4].dead);
   /*
   for (int i = 0; i < test.length; i++) {
    test[i].move();
@@ -177,9 +177,9 @@ class Coin {
 
   void rollType() {
     double z = Math.random();
-    if (z <= .15)
+    if (z <= .1)
       type = 2;
-    else if (z <= .5)
+    else if (z <= .55)
       type = 1;
     else if (z <= 1)
       type = 0;
