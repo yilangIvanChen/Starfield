@@ -44,7 +44,7 @@ void draw() {
     coins[i].flip();
     coins[i].show();
   }
-  System.out.println("Coin Dead Status: " + coins[0].dead+ coins[1].dead+ coins[2].dead+ coins[3].dead+ coins[4].dead);
+  //System.out.println("Coin Dead Status: " + coins[0].dead+ coins[1].dead+ coins[2].dead+ coins[3].dead+ coins[4].dead);
   /*
   for (int i = 0; i < test.length; i++) {
    test[i].move();
