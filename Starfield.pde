@@ -1,14 +1,13 @@
 /* Goal: ultrakill haha funny
  
- throw coin (done, throw on key press not yet implemented)
+ throw coin (basically works, clunky click registration)
  
  shoot coin
-
- particles when coin is shot (particles done, function not yet implementd)
+ 
+ particles when coin is shot (done, not implemented)
  
  ricochet coins
-
-make speech in index.html increase in text size per line
+ 
  */
 
 
@@ -23,20 +22,35 @@ Coin[] coins = new Coin[5];
 void setup() {
   background(167);
   size(1000, 600);
-  for (int i = 0; i < 6; i++)
-    test[i] = new Split(500, 300, 2);
-  for (int i = 6; i < test.length; i++)
-    test[i] = new Particle(500, 300);
+  for (int i = 0; i < coins.length; i++) {
+    coins[i] = new Coin(50+i*100, 300);
+    coins[i].rollType();
+  }
+  /* 
+   for (int i = 0; i < 6; i++)
+   test[i] = new Split(500, 300, 2);
+   for (int i = 6; i < test.length; i++)
+   test[i] = new Particle(500, 300);
+   */
+
   frameRate(120);
 }
 
 
 void draw() {
   background(167);
-  for (int i = 0; i < test.length; i++) {
-    test[i].move();
-    test[i].show();
+  for (int i = 0; i < coins.length; i++) {
+    coins[i].fly();
+    coins[i].flip();
+    coins[i].show();
   }
+  System.out.println("Coin Dead Status: " + coins[0].dead+ coins[1].dead+ coins[2].dead+ coins[3].dead+ coins[4].dead);
+  /*
+  for (int i = 0; i < test.length; i++) {
+   test[i].move();
+   test[i].show();
+   }
+   */
 }
 
 
@@ -44,11 +58,33 @@ void draw() {
 ////////////////////////////////////CLICKING STUFF////////////////////////////////////////////////
 
 
-void mouseClicked(){
-
-
+void mouseClicked() {//currently trying to make coins flip on m1 up to mouseY
+  if (checkDead()) {
+    int here = searchDead();
+    coins[here] = new Coin(mouseX, mouseY);
+    coins[here].rollType();
+  }
 }
 
+
+/////////////////////////////////////PULL UP TO THE FUNCTION GNAG//////////////////////
+
+
+int searchDead() {
+  for (int i = 0; i < coins.length; i++) {
+    if (coins[i].dead == true)
+      return i;
+  }
+  return -1;
+}
+
+boolean checkDead() {
+  for (int i = 0; i < coins.length; i++) {
+    if (coins[i].dead == true)
+      return true;
+  }
+  return false;
+}
 
 /////////////////////////////////////CLASSES////////////////////////////////////////////////////
 
@@ -131,13 +167,22 @@ class Coin {
   double time;
   boolean dead;
   color coin;
-  Coin(int x, int z, int max) {
+  Coin(int x, int max) {
     myX = x;
     myY = 610;
     maxHeight = max;
-    type = z;
     time = 0;
     dead = false;
+  }
+
+  void rollType() {
+    double z = Math.random();
+    if (z <= .15)
+      type = 2;
+    else if (z <= .5)
+      type = 1;
+    else if (z <= 1)
+      type = 0;
   }
 
   void flip() {
@@ -170,8 +215,10 @@ class Coin {
 
   void fly() {
     myY = (int)(.04*(time*time-240*time)+600+maxHeight);
-    if (myY > 620)
+    if (myY > 605)
       dead = true;
+    else
+      dead = false;
   }
   void show() {
     stroke(2);
