@@ -2,7 +2,7 @@
  
  throw coin (in the works edit: ok so its clunky on processing but not on github what the fuck)
  
- shoot coin
+ shoot coin (working on ts rn)
  
  particles when coin is shot (done, not implemented)
  
@@ -15,6 +15,10 @@
 
 Particle[] test = new Particle[16];
 Coin[] coins = new Coin[10];
+int heldTime = 0;
+int storage;
+boolean shoot = false;
+int timer = 0;
 
 ///////////////////////////////DRAWING STUFF//////////////////////////////////////////////////
 
@@ -26,19 +30,19 @@ void setup() {
     coins[i] = new Coin(50+i*100, 300);
     coins[i].rollType();
   }
+  frameRate(120);
   /* 
    for (int i = 0; i < 6; i++)
    test[i] = new Split(500, 300, 2);
    for (int i = 6; i < test.length; i++)
    test[i] = new Particle(500, 300);
    */
-
-  frameRate(120);
 }
 
 
 void draw() {
   background(167);
+  System.out.println(heldTime);
   for (int i = 0; i < coins.length; i++) {
     coins[i].fly();
     coins[i].flip();
@@ -51,6 +55,18 @@ void draw() {
    test[i].show();
    }
    */
+  ////////////////////////mouse holding stuff
+  if (keyPressed && key == ' ') {
+    heldTime++;
+    shoot = false;
+  }
+  if (heldTime > 120)
+    heldTime = 120;
+  if (heldTime < 0)
+    heldTime = 0;
+  if (shoot) {
+  }
+  ///////////////////mouse holding stuff (end)
 }
 
 
@@ -63,6 +79,13 @@ void mouseClicked() {//currently trying to make coins flip on m1 up to mouseY
     int here = searchDead();
     coins[here] = new Coin(mouseX, mouseY);
     coins[here].rollType();
+  }
+}
+
+void keyReleased() {
+  if (key == ' ') {
+    storage = heldTime;
+    shoot = true;
   }
 }
 
@@ -105,8 +128,7 @@ class Particle {
     fadeFactor = size;
   }
 
-  Particle() {
-  } ////////////yo why tf does this need to be here
+  Particle() {}
 
   void move() {
     if (iniSize/5*3 >= size)
@@ -214,8 +236,8 @@ class Coin {
   }
 
   void fly() {
-    myY = (int)(.04*(time*time-240*time)+600+maxHeight);
-    if (myY > 605)
+    myY = (int)(.04*(time*time-240*time)+580+maxHeight);
+    if (myY > 610)
       dead = true;
     else
       dead = false;
