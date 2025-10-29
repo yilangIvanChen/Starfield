@@ -1,10 +1,10 @@
 /* Goal: ultrakill haha funny
  
- throw coin (in the works edit: ok so its clunky on processing but not on github what the fuck)
+ throw coin (done)
  
- shoot coin (working on ts rn)
+ shoot coin (working on bullet class rn, sm shit about inverse tan)
  
- particles when coin is shot (done, not implemented)
+ particles when coin is shot (done by accident lmao)
  
  ricochet coins
  
@@ -13,12 +13,13 @@
 
 /////////////////////////////VARIABLES///////////////////////////////////////////////////
 
-Particle[] test = new Particle[16];
+Particle[][] bang = new Particle[10][12];
 Coin[] coins = new Coin[10];
 int heldTime = 0;
 int storage;
 boolean shoot = false;
 int timer = 0;
+Bullet pew;
 
 ///////////////////////////////DRAWING STUFF//////////////////////////////////////////////////
 
@@ -27,46 +28,53 @@ void setup() {
   background(167);
   size(1000, 600);
   for (int i = 0; i < coins.length; i++) {
-    coins[i] = new Coin(50+i*100, 300);
+    coins[i] = new Coin(2000, 1200);
     coins[i].rollType();
   }
+  for (int i = 0; i < coins.length; i++) {
+    for (int j = 0; j < bang[i].length; j++)
+      bang[i][j] = new Particle(coins[i].myX, coins[i].myY);
+  }
   frameRate(120);
-  /* 
-   for (int i = 0; i < 6; i++)
-   test[i] = new Split(500, 300, 2);
-   for (int i = 6; i < test.length; i++)
-   test[i] = new Particle(500, 300);
-   */
 }
 
 
 void draw() {
   background(167);
-  System.out.println(heldTime);
-  for (int i = 0; i < coins.length; i++) {
+  for (int i = 0; i < coins.length; i++) {////////coin stuff
     coins[i].fly();
     coins[i].flip();
     coins[i].show();
   }
-  //System.out.println("Coin Dead Status: " + coins[0].dead+ coins[1].dead+ coins[2].dead+ coins[3].dead+ coins[4].dead);
-  /*
-  for (int i = 0; i < test.length; i++) {
-   test[i].move();
-   test[i].show();
-   }
-   */
-  ////////////////////////mouse holding stuff
-  if (keyPressed && key == ' ') {
-    heldTime++;
-    shoot = false;
+
+
+  for (int i = 0; i < bang.length; i++) {//////particle stuff
+    for (int j = 0; j < bang[i].length; j++) {
+      bang[i][j].move();
+      bang[i][j].show();
+    }
   }
-  if (heldTime > 120)
-    heldTime = 120;
+
+
+  if (keyPressed && key == ' ') {///////////heldTime stuff
+    heldTime++;
+  }
+  if (heldTime > 45)
+    heldTime = 45;
   if (heldTime < 0)
     heldTime = 0;
-  if (shoot) {
+
+
+  if (shoot) {///////////////this cutscene bs is gonna be hell to code
+    for (int i = 0; i < coins.length; i++) {
+      if (!coins[i].dead){
+      
+      }
+    }
+    while (timer <= 60) {
+    }
+    heldTime = 0;
   }
-  ///////////////////mouse holding stuff (end)
 }
 
 
@@ -74,40 +82,38 @@ void draw() {
 ////////////////////////////////////CLICKING STUFF////////////////////////////////////////////////
 
 
-void mouseClicked() {//currently trying to make coins flip on m1 up to mouseY
-  if (checkDead()) {
-    int here = searchDead();
-    coins[here] = new Coin(mouseX, mouseY);
-    coins[here].rollType();
+void mouseClicked() {
+  for (int i = 1; i < coins.length; i++) {
+    if (coins[i].dead) {
+      coins[i] = new Coin(mouseX, mouseY);
+      coins[i].rollType();
+      break;
+    }
   }
 }
 
 void keyReleased() {
   if (key == ' ') {
     storage = heldTime;
+    for (int i = 0; i < coins.length; i++) {
+      if (!coins[i].dead) {
+        for (int j = 0; j < 3; j++)
+          bang[i][j] = new Split(coins[i].myX, coins[i].myY, coins[i].type);
+        for (int j = 6; j < bang[i].length; j++)
+          bang[i][j] = new Particle(coins[i].myX, coins[i].myY);
+      } else {
+        for (int j = 0; j < bang[i].length; j++)
+          bang[i][j] = new Split(2000, 1200, 0);
+      }
+    }
     shoot = true;
   }
 }
 
 
-/////////////////////////////////////PULL UP TO THE FUNCTION GNAG//////////////////////
+/////////////////////////////////////PULL UP TO THE FUNCTION GNAG////////////////////////////////
 
-
-int searchDead() {
-  for (int i = 0; i < coins.length; i++) {
-    if (coins[i].dead == true)
-      return i;
-  }
-  return -1;
-}
-
-boolean checkDead() {
-  for (int i = 0; i < coins.length; i++) {
-    if (coins[i].dead == true)
-      return true;
-  }
-  return false;
-}
+//no
 
 /////////////////////////////////////CLASSES////////////////////////////////////////////////////
 
@@ -128,7 +134,8 @@ class Particle {
     fadeFactor = size;
   }
 
-  Particle() {}
+  Particle() {
+  }
 
   void move() {
     if (iniSize/5*3 >= size)
@@ -236,8 +243,8 @@ class Coin {
   }
 
   void fly() {
-    myY = (int)(.04*(time*time-240*time)+580+maxHeight);
-    if (myY > 610)
+    myY = (int)(.04*(time-120)*(time-120)+maxHeight);
+    if (myY > 576+maxHeight)
       dead = true;
     else
       dead = false;
@@ -248,3 +255,23 @@ class Coin {
     ellipse(myX, myY, 40, tadth);
   }
 }////end of coin class
+
+class Bullet{
+float myX, myY, goalX, goalY, originalX, originalY, direction;
+
+Bullet(float x, float y, float toX, float toY){
+  myX = x;
+  myY = y;
+  originalX = x;
+  originalX = y;
+  goalX = toX;
+  goalY = toY;
+}
+
+void move(){
+if (myX <= goalX)
+  myX -= (goalX-originalX)/10;
+
+}
+
+}
