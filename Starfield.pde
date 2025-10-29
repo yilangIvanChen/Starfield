@@ -64,7 +64,7 @@ void draw() {
   if (heldTime < 0)
     heldTime = 0;
 
-
+/*
   if (shoot) {///////////////this cutscene bs is gonna be hell to code
     for (int i = 0; i < coins.length; i++) {
       if (!coins[i].dead){
@@ -77,7 +77,7 @@ void draw() {
   }
 }
 
-
+*/
 
 ////////////////////////////////////CLICKING STUFF////////////////////////////////////////////////
 
