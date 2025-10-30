@@ -64,7 +64,7 @@ void draw() {
   if (heldTime < 0)
     heldTime = 0;
 
-
+/*
   if (shoot) {///////////////this cutscene bs is gonna be hell to code
     for (int i = 0; i < coins.length; i++) {
       if (!coins[i].dead) {
@@ -74,6 +74,7 @@ void draw() {
     }
     heldTime = 0;
   }
+  */
 }
 
 
@@ -168,7 +169,7 @@ class Split extends Particle {
     if (type == 0)
       coin = #D88E48;
     if (type == 1)
-      coin = #DFEFF0;
+      coin = #F0F0F0;
     if (type == 2)
       coin = #F0E085;
   }
@@ -220,7 +221,7 @@ class Coin {
         coin = #D88E48;
       }
       if (type == 1) {
-        coin = #DFEFF0;
+        coin = #F0F0F0;
       }
       if (type == 2) {
         coin = #F0E085;
@@ -266,17 +267,19 @@ class Bullet {
   }
 
   void move() {
-    if (myX < goalX) {
-      myX += Math.cos(direction)*10;
-    }
-    if (myY < goalY) {
-      myY += Math.sin(direction)*10;
-    }
-    if (myX > goalX) {
-      myX -= Math.cos(direction)*10;
-    }
-    if (myY > goalY) {
-      myY -= Math.sin(direction)*10;
+    if (myX == goalX && myY < goalY)
+      myY -= 4;
+    else if (myX == goalX && myY > goalY)
+      myY += 4;
+    else {
+      if (myX < goalX) 
+        myX += Math.cos(direction)*4;
+      if (myY < goalY) 
+        myY += Math.sin(direction)*4;
+      if (myX > goalX) 
+        myX -= Math.cos(direction)*4;
+      if (myY > goalY) 
+        myY -= Math.sin(direction)*4;
     }
   }
 
