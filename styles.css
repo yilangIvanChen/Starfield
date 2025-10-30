@@ -17,7 +17,25 @@ header {
 }
 
 footer {
-	font-size: 200%;
 	text-align: center;
 }
 
+#one {
+	font-size: 110%;
+}
+
+#two {
+	font-size: 120%;
+}
+
+#three {
+	font-size: 135%;
+}
+
+#four {
+	font-size: 165%;
+}
+
+#five {
+	font-size: 195%;
+}
