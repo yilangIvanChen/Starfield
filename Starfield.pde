@@ -64,18 +64,16 @@ void draw() {
   if (heldTime < 0)
     heldTime = 0;
 
-/*
+
   if (shoot) {///////////////this cutscene bs is gonna be hell to code
     for (int i = 0; i < coins.length; i++) {
-      if (!coins[i].dead){
-      
+      if (!coins[i].dead) {
       }
     }
     while (timer <= 60) {
     }
     heldTime = 0;
   }
-*/
 }
 
 
@@ -83,7 +81,7 @@ void draw() {
 
 
 void mouseClicked() {
-  for (int i = 1; i < coins.length; i++) {
+  for (int i = 0; i < coins.length; i++) {
     if (coins[i].dead) {
       coins[i] = new Coin(mouseX, mouseY);
       coins[i].rollType();
@@ -256,22 +254,33 @@ class Coin {
   }
 }////end of coin class
 
-class Bullet{
-float myX, myY, goalX, goalY, originalX, originalY, direction;
+class Bullet {
+  float myX, myY, goalX, goalY, direction;
 
-Bullet(float x, float y, float toX, float toY){
-  myX = x;
-  myY = y;
-  originalX = x;
-  originalX = y;
-  goalX = toX;
-  goalY = toY;
-}
+  Bullet(float x, float y, float toX, float toY) {
+    myX = x;
+    myY = y;
+    goalX = toX;
+    goalY = toY;
+    direction = atan((toY-myY)/(toX-myX));
+  }
 
-void move(){
-if (myX <= goalX)
-  myX -= (goalX-originalX)/10;
+  void move() {
+    if (myX < goalX) {
+      myX += Math.cos(direction)*10;
+    }
+    if (myY < goalY) {
+      myY += Math.sin(direction)*10;
+    }
+    if (myX > goalX) {
+      myX -= Math.cos(direction)*10;
+    }
+    if (myY > goalY) {
+      myY -= Math.sin(direction)*10;
+    }
+  }
 
-}
-
-}
+  void show() {
+    ellipse(myX, myY, 10, 10);
+  }
+}/////////end of bullet class
