@@ -254,36 +254,3 @@ class Coin {
     ellipse(myX, myY, 40, tadth);
   }
 }////end of coin class
-
-class Bullet {
-  float myX, myY, goalX, goalY, direction;
-
-  Bullet(float x, float y, float toX, float toY) {
-    myX = x;
-    myY = y;
-    goalX = toX;
-    goalY = toY;
-    direction = atan((toY-myY)/(toX-myX));
-  }
-
-  void move() {
-    if (myX == goalX && myY < goalY)
-      myY -= 4;
-    else if (myX == goalX && myY > goalY)
-      myY += 4;
-    else {
-      if (myX < goalX) 
-        myX += Math.cos(direction)*4;
-      if (myY < goalY) 
-        myY += Math.sin(direction)*4;
-      if (myX > goalX) 
-        myX -= Math.cos(direction)*4;
-      if (myY > goalY) 
-        myY -= Math.sin(direction)*4;
-    }
-  }
-
-  void show() {
-    ellipse(myX, myY, 10, 10);
-  }
-}/////////end of bullet class
