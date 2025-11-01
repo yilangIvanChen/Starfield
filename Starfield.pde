@@ -1,12 +1,6 @@
 /* Goal: ultrakill haha funny
- 
- throw coin (done)
- 
- shoot coin (working on bullet class rn, sm shit about inverse tan)
- 
- particles when coin is shot (done by accident lmao)
- 
- ricochet coins
+
+impact frames are killing me if i'll figure it out tmrw if i feel like it
  
  */
 
@@ -14,12 +8,11 @@
 /////////////////////////////VARIABLES///////////////////////////////////////////////////
 
 Particle[][] bang = new Particle[10][12];
+int[][] help = new int[10][3];
 Coin[] coins = new Coin[10];
-int heldTime = 0;
-int storage;
 boolean shoot = false;
+boolean huh = false;
 int timer = 0;
-Bullet pew;
 
 ///////////////////////////////DRAWING STUFF//////////////////////////////////////////////////
 
@@ -41,40 +34,51 @@ void setup() {
 
 void draw() {
   background(167);
+  /*
+  if (shoot) {///////////////this cutscene bs is gonna be hell to code
+   ////////////////////////impact frames
+   for (int i = 0; i < coins.length; i++) {
+   if (!coins[i].dead) {
+   help[i][0] = coins[i].myX;
+   help[i][1] = coins[i].myY;
+   help[i][2] = coins[i].tadth;
+   } else {
+   help[i][0] = -1;
+   }
+   }
+   huh = true;
+   }
+   if (huh) {
+   shoot = false;
+   while (timer <= 1920) {
+   fill(0);
+   rect(0, 0, 1000, 600);
+   for (int i = 0; i < help.length; i++) {
+   if (!(help[i][0] == -1)) {
+   fill(255);
+   ellipse(help[i][0], help[i][1], 40, help[i][2]);
+   }
+   }
+   timer++;
+   }
+   timer = 0;
+   huh = false;
+   }
+   */
   for (int i = 0; i < coins.length; i++) {////////coin stuff
     coins[i].fly();
     coins[i].flip();
     coins[i].show();
   }
 
-
-  for (int i = 0; i < bang.length; i++) {//////particle stuff
-    for (int j = 0; j < bang[i].length; j++) {
-      bang[i][j].move();
-      bang[i][j].show();
-    }
-  }
-
-
-  if (keyPressed && key == ' ') {///////////heldTime stuff
-    heldTime++;
-  }
-  if (heldTime > 45)
-    heldTime = 45;
-  if (heldTime < 0)
-    heldTime = 0;
-
-/*
-  if (shoot) {///////////////this cutscene bs is gonna be hell to code
-    for (int i = 0; i < coins.length; i++) {
-      if (!coins[i].dead) {
+  if (!huh) {
+    for (int i = 0; i < bang.length; i++) {//////particle stuff
+      for (int j = 0; j < bang[i].length; j++) {
+        bang[i][j].move();
+        bang[i][j].show();
       }
     }
-    while (timer <= 60) {
-    }
-    heldTime = 0;
   }
-  */
 }
 
 
@@ -93,7 +97,6 @@ void mouseClicked() {
 
 void keyReleased() {
   if (key == ' ') {
-    storage = heldTime;
     for (int i = 0; i < coins.length; i++) {
       if (!coins[i].dead) {
         for (int j = 0; j < 3; j++)
@@ -106,13 +109,11 @@ void keyReleased() {
       }
     }
     shoot = true;
+    for (int i = 0; i < coins.length; i++)
+      coins[i] = new Coin(2000, 1200);
   }
 }
 
-
-/////////////////////////////////////PULL UP TO THE FUNCTION GNAG////////////////////////////////
-
-//no
 
 /////////////////////////////////////CLASSES////////////////////////////////////////////////////
 
